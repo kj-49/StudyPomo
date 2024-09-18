@@ -1,0 +1,43 @@
+version: '3.4'
+
+volumes:
+  mysql-datafiles:
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - studypomo.ui
+
+  studypomo.ui:
+    image: ${DOCKER_REGISTRY-}studypomoui
+    build:
+      context: .
+      dockerfile: StudyPomo.UI/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      Google__ClientId: ${Google__ClientId}
+      Google__ClientSecret: ${Google__ClientSecret}
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__StudyPomo: ${DOCKER_CONNECTION_STRING}
+      ASPNETCORE_HTTP_PORTS: "5000"
+      ASPNETCORE_HTTPS_PORTS: "5001"
+
+  studypomo.database:
+    image: mysql:8.0.33
+    ports:
+    - "3307:3306"
+    volumes:
+    - mysql-datafiles:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: studypomo
+      MYSQL_USER: studypomo
+      MYSQL_PASSWORD: studypomo
