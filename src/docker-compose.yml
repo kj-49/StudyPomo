@@ -28,16 +28,3 @@ services:
       ConnectionStrings__StudyPomo: ${DOCKER_CONNECTION_STRING}
       ASPNETCORE_HTTP_PORTS: "5000"
       ASPNETCORE_HTTPS_PORTS: "5001"
-
-  studypomo.database:
-    image: mysql:8.0.33
-    ports:
-    - "3307:3306"
-    volumes:
-    - mysql-datafiles:/var/lib/mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: studypomo
-      MYSQL_USER: studypomo
-      MYSQL_PASSWORD: studypomo
