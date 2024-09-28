@@ -56,6 +56,9 @@ builder.Services.AddAuthentication().AddGoogle(googleOptions =>
 // Resouce authorization handlers
 builder.Services.AddAuthorizationHandlers();
 
+string s = builder.Configuration.GetConnectionString("StudyPomo");
+
+
 // Identity
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("StudyPomo"), new MySqlServerVersion(new Version(8, 0, 33))));

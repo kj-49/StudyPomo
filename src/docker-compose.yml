@@ -25,6 +25,6 @@ services:
       Google__ClientId: ${Google__ClientId}
       Google__ClientSecret: ${Google__ClientSecret}
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__StudyPomo: ${DOCKER_CONNECTION_STRING}
+      ConnectionStrings__StudyPomo: Server=172.17.0.1;Database=PomodoroDb;User=root;Password=aA123123!;
       ASPNETCORE_HTTP_PORTS: "5000"
       ASPNETCORE_HTTPS_PORTS: "5001"
