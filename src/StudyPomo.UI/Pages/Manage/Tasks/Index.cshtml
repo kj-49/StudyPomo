@@ -36,7 +36,7 @@
 </div>
 
 
-<div>
+<div class="mb-2">
     <div class="d-flex">
         <h5>
             <span class="me-1">@Model.StudyTask.Name</span>
@@ -48,30 +48,22 @@
 
     </div>
 </div>
-
-<div class="border-1 border-start pb-3">
-    <div class="row" style="height: 50px">
-        <div class="col-2 pb-3">
-            <div class="border-1 border-bottom h-100"></div>
+<div>
+    <div class="d-flex align-items-center">
+        <div class="my-1 border-1 border-top me-2" style="width: 30px;">
         </div>
-        <div class="col-10">
-            <div class="d-flex align-items-end h-100">
-                <h5 class="text-body-secondary">Subtask 1</h5>
-            </div>
-
-        </div>
-    </div>
-    <div class="row" style="height: 50px">
-        <div class="col-2 pb-3">
-            <div class="border-1 border-bottom h-100"></div>
-        </div>
-        <div class="col-10">
-            <div class="d-flex align-items-end h-100">
-                <h5 class="text-body-secondary">Subtask 2</h5>
-            </div>
-        </div>
+        @if (task.Completed)
+        {
+            <i class="bi bi-check-circle text-success me-2"></i>
+        }
+        else
+        {
+            <i class="bi bi-x-circle text-secondary me-2"></i>
+        }
+        <span class="text-body-secondary fs-5">Subtask 2</span>
     </div>
 </div>
+
 
 @section Scripts {
 
