@@ -12,11 +12,12 @@ public class StudyTaskLinkTagHelper : TagHelper
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        output.TagName = "span";
+        output.TagName = "a";
 
         // Set class attributes based on the Bold property
         string classAttribute = Bold ? "me-2 fw-semibold text-truncate" : "me-2 text-truncate";
         output.Attributes.SetAttribute("class", classAttribute);
+        output.Attributes.SetAttribute("href", $"/Manage/Tasks/{Task.Id}");
 
         // Set popover attributes
         output.Attributes.SetAttribute("data-bs-toggle", "popover");

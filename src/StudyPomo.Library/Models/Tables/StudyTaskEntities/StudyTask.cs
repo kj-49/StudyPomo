@@ -26,6 +26,9 @@ public class StudyTask
     public DateTime? Deadline { get; set; }
     public int? CourseId { get; set; }
     public Course? Course { get; set; }
-
+    /// <summary>
+    /// If not null, implies this is a subtask to another parent task.
+    /// </summary>
+    public int? ParentId { get; set; }
     public List<TaskLabel> TaskLabels { get; } = [];
 }
