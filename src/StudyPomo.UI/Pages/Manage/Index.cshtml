@@ -220,175 +220,182 @@
 </div>
 
 <div class="mb-2">
-    <div class="d-flex justify-content-between align-items-end mb-3">
-        <h5 class="mb-0">Courses</h5>
-        @if (Model.Courses.Count > 0)
-        {
-            <a href="#" data-bs-toggle="modal" data-bs-target="#course-create-modal"><i class="bi bi-plus-lg me-2"></i>Add New Course</a>
-        }
-    </div>
     <div class="row">
-        @foreach (var course in Model.Courses)
-        {
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                <a asp-page="/Manage/Courses/Index" asp-route-id="@course.Id" class="text-decoration-none">
-                    <div class="card h-100 card-hover" style="border-left: 5px solid @course.HexColor;">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h5 class="card-title fw-bold">@course.Name</h5>
-                                <p class="card-text">@course.Description</p>
-                            </div>
-
-                            <div class="mt-3 d-flex align-items-center justify-content-between">
-                                <small class="text-muted">Incomplete Tasks: @(course.StudyTasks.Count(t => !t.Completed && !t.Archived))</small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+        <div class="col-8">
+            <div class="mb-3">
+                <h5 class="mb-0">Metrics</h5>
             </div>
-        }
-        @if (Model.Courses.Count == 0)
-        {
-            <div class="col-md-4 mb-4">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#course-create-modal" class="text-decoration-none">
-                    <div class="card h-100 card-hover" style="border-left: 5px solid grey;">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h5 class="text-body-tertiary text-opacity-50 fw-bold"><i class="bi bi-plus-lg me-2"></i>Add New Course</h5>
-                                <p class="card-text text-body-tertiary">Description...</p>
-                            </div>
-                            <div class="mt-3 d-flex align-items-center justify-content-between">
-                                <small class="text-muted text-body-tertiary">Status...</small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        }
-    </div>
-</div>
-
-@{
-    var nextTasks = Model.StudyTasks.Next(5);
-}
-
-<div class="mb-2">
-    <div class="d-flex justify-content-between align-items-end mb-3">
-        <div class="d-flex">
-            <h5 class="mb-0 me-2">Tasks Due Next</h5>
-        </div>
-        
-        @if (Model.StudyTasks.Where(u => !u.Completed).Count() > 0)
-        {
-            <a asp-page="/Timer/Index"><i class="bi bi-clock me-2"></i>Enter Pomodoro</a>
-        }
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item bg-body-tertiary">
-            <div class="row align-items-center">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="col-md-5">
-                        <span><strong>Task</strong></span>
-                    </div>
-                    <div class="d-none d-md-block col-md-4">
-                        <span><strong>Due</strong></span>
-                    </div>
-                    <div class="d-none d-lg-block col-md-1">
-                        <span><strong>Priority</strong></span>
-                    </div>
-                    <div class="d-none d-lg-block col-md-1">
-                        <span><strong>Course</strong></span>
-                    </div>
-                    <div class="col-md-1 text-end text-nowrap">
-                        <span><strong>Actions</strong></span>
+            <div class="d-flex mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <p>Completed Vs. Total</p>
+                        <div id="completed-chart" style="height: 150px; width: 150px"></div>
                     </div>
                 </div>
             </div>
-        </li>
-        @foreach (var task in nextTasks)
-        {
-            <li class="list-group-item">
-                <div class="row align-items-center">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="col-md-5 d-flex flex-nowrap align-items-center">
-                            <study-task-link task="@task"></study-task-link>
-                            @foreach (var label in task.TaskLabels)
-                            {
-                                <badge text="@label.Name" color="@label.HexColor"></badge>
-                            }
-                        </div>
-                        <div class="d-none d-md-block col-md-4">
-                            <deadline date="@task.Deadline"></deadline>
-                        </div>
-                        <div class="d-none d-lg-block col-md-1">
-                            @if (task.TaskPriority != null)
-                            {
-                                <badge text="@task.TaskPriority.Level" color="@task.TaskPriority.DisplayHexColor"></badge>
-                            }
-                        </div>
-                        <div class="d-none d-lg-block col-md-1">
-                            @if (task.Course != null)
-                            {
-                                <badge text="@task.Course.Name" color="@task.Course.HexColor"></badge>
-                            }
-                        </div>
-                        <div class="col-md-1">
-                            <div class="d-flex align-items-center justify-content-end">
-                                <div class="dropdown">
-                                    <i style="cursor: pointer" class="text-secondary bi bi-three-dots" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="@($"#{StudyTaskModalHelper.GetEditModalId(task.Id)}")">Edit</a></li>
-                                        <li>
-                                            <form method="post">
-                                                <button type="submit" class="dropdown-item" asp-page-handler="ArchiveStudyTask" asp-route-studyTaskId="@task.Id">Delete</button>
-                                            </form>
-                                        </li>
-                                    </ul>
+
+            <div class="mb-2">
+                <div class="d-flex justify-content-between align-items-end mb-3">
+                    <div class="d-flex">
+                        <h5 class="mb-0 me-2">Tasks Due Next</h5>
+                    </div>
+
+                    @if (Model.StudyTasks.Where(u => !u.Completed).Count() > 0)
+                    {
+                        <a asp-page="/Timer/Index"><i class="bi bi-clock me-2"></i>Enter Pomodoro</a>
+                    }
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item bg-body-tertiary">
+                        <div class="row align-items-center">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="col-md-5">
+                                    <span><strong>Task</strong></span>
+                                </div>
+                                <div class="d-none d-md-block col-md-4">
+                                    <span><strong>Due</strong></span>
+                                </div>
+                                <div class="d-none d-lg-block col-md-1">
+                                    <span><strong>Course</strong></span>
+                                </div>
+                                <div class="col-md-1 text-end text-nowrap">
+                                    <span><strong>Actions</strong></span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </li>
-        }
-        @if (Model.StudyTasks.Where(u => !u.Completed).Count() == 0)
-        {
-            <li class="list-group-item custom-hover">
-                <a data-bs-toggle="modal" data-bs-target="#study-task-create-modal" class="row align-items-center">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="col-md-5">
-                            <i class="bi bi-plus"></i>
-                            <span class="ext-decoration-none text-opacity-50">Add New Task</span>
-                        </div>
-                        <div class="d-none d-md-block col-md-4">
-                            <span class="text-opacity-50">Due...</span>
-                        </div>
-                        <div class="d-none d-lg-block col-md-1">
-                            <span class="text-opacity-50">Course...</span>
-                        </div>
-                        <div class="col-md-2 text-end text-nowrap">
-                        </div>
-                    </div>
-                </a>
-            </li>
-        }
+                    </li>
+                    @foreach (var task in Model.StudyTasks.Next(5))
+                    {
+                        <li class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="col-md-5 d-flex flex-nowrap align-items-center">
+                                        <study-task-link task="@task"></study-task-link>
+                                        @foreach (var label in task.TaskLabels)
+                                        {
+                                            <badge text="@label.Name" color="@label.HexColor"></badge>
+                                        }
+                                    </div>
+                                    <div class="d-none d-md-block col-md-4">
+                                        <deadline date="@task.Deadline"></deadline>
+                                    </div>
+                                    <div class="d-none d-lg-block col-md-1">
+                                        @if (task.Course != null)
+                                        {
+                                            <badge text="@task.Course.Name" color="@task.Course.HexColor"></badge>
+                                        }
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <div class="dropdown">
+                                                <i style="cursor: pointer" class="text-secondary bi bi-three-dots" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="@($"#{StudyTaskModalHelper.GetEditModalId(task.Id)}")">Edit</a></li>
+                                                    <li>
+                                                        <form method="post">
+                                                            <button type="submit" class="dropdown-item" asp-page-handler="ArchiveStudyTask" asp-route-studyTaskId="@task.Id">Delete</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                    @if (Model.StudyTasks.Where(u => !u.Completed).Count() == 0)
+                    {
+                        <li class="list-group-item custom-hover">
+                            <a data-bs-toggle="modal" data-bs-target="#study-task-create-modal" class="row align-items-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="col-md-5">
+                                        <i class="bi bi-plus"></i>
+                                        <span class="ext-decoration-none text-opacity-50">Add New Task</span>
+                                    </div>
+                                    <div class="d-none d-md-block col-md-4">
+                                        <span class="text-opacity-50">Due...</span>
+                                    </div>
+                                    <div class="d-none d-lg-block col-md-1">
+                                        <span class="text-opacity-50">Course...</span>
+                                    </div>
+                                    <div class="col-md-2 text-end text-nowrap">
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    }
 
-    </ul>
-    @foreach (var task in Model.StudyTasks)
-    {
-        @await Html.PartialAsync("/Pages/Shared/Snippets/StudyTaskSnippets/_EditStudyTaskModal.cshtml", new EditStudyTaskVM(
-            Model.TimeZone,
-            mapper.Map<StudyTaskUpdate>(task),
-            Model.TaskLabels,
-            Model.TaskPriorities,
-            Model.Courses
-        ))
-    }
+                </ul>
+                @foreach (var task in Model.StudyTasks)
+                {
+                    @await Html.PartialAsync("/Pages/Shared/Snippets/StudyTaskSnippets/_EditStudyTaskModal.cshtml", new EditStudyTaskVM(
+                             Model.TimeZone,
+                             mapper.Map<StudyTaskUpdate>(task),
+                             Model.TaskLabels,
+                             Model.TaskPriorities,
+                             Model.Courses
+                             ))
+                }
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="d-flex justify-content-between align-items-end mb-3">
+                <h5 class="mb-0">Courses</h5>
+                @if (Model.Courses.Count > 0)
+                {
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#course-create-modal"><i class="bi bi-plus-lg me-2"></i>Add New Course</a>
+                }
+            </div>
+            <div class="row">
+                @foreach (var course in Model.Courses)
+                {
+                    <div class="col-12 mb-2">
+                        <a asp-page="/Manage/Courses/Index" asp-route-id="@course.Id" class="text-decoration-none">
+                            <div class="card h-100 card-hover" style="border-left: 5px solid @course.HexColor;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h6 class="card-title fw-bold mb-0">@course.Name</h6>
+                                        <p class="card-text">@course.Description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+                @if (Model.Courses.Count == 0)
+                {
+                    <div class="col-12">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#course-create-modal" class="text-decoration-none">
+                            <div class="card h-100 card-hover" style="border-left: 5px solid grey;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h5 class="text-body-tertiary text-opacity-50 fw-bold"><i class="bi bi-plus-lg me-2"></i>Add New Course</h5>
+                                        <p class="card-text text-body-tertiary">Description...</p>
+                                    </div>
+                                    <div class="mt-3 d-flex align-items-center justify-content-between">
+                                        <small class="text-muted text-body-tertiary">Status...</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
 
 
 
 @section Scripts {
 
     <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+    <script src="~/Pages/Manage/Index.cshtml.js" asp-append-version="true"></script>
+
 }
