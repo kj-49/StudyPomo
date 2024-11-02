@@ -105,7 +105,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
-app.UseSerilogRequestLogging();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -130,6 +130,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<LogContextEnrichmentMiddleware>();
+app.UseSerilogRequestLogging();
+
 app.UseMiddleware<OnboardingMiddleware>();
 
 
