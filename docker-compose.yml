@@ -1,0 +1,16 @@
+services:
+  studypomo.ui:
+    image: ${DOCKER_REGISTRY-}studypomoui
+    env_file: .env
+    build:
+      context: .
+      dockerfile: src/StudyPomo.UI/Dockerfile
+  
+  studypomo.seq:
+    image: datalust/seq:latest
+    container_name: studypomo-seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80

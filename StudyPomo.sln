@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F3EFA8A5-D7DD-4A92-B948-9803350C567E}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		src\Dockerfile = src\Dockerfile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8C7FD490-47EA-4211-A118-453BD74CB6BB}"
 EndProject
@@ -11,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyPomo.Library", "src\St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyPomo.UI", "src\StudyPomo.UI\StudyPomo.UI.csproj", "{7F59E048-156E-4A62-9EEC-A5D77A95D98B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyPomo.Library.Tests", "tests\StudyPomo.Library.Tests\StudyPomo.Library.Tests.csproj", "{BA675260-735D-47B2-B706-0B453AC55937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyPomo.Library.Tests", "tests\StudyPomo.Library.Tests\StudyPomo.Library.Tests.csproj", "{BA675260-735D-47B2-B706-0B453AC55937}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{47F90C9E-CD3C-4C99-8245-B5E066AC8355}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +37,10 @@ Global
 		{BA675260-735D-47B2-B706-0B453AC55937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA675260-735D-47B2-B706-0B453AC55937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA675260-735D-47B2-B706-0B453AC55937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F90C9E-CD3C-4C99-8245-B5E066AC8355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F90C9E-CD3C-4C99-8245-B5E066AC8355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F90C9E-CD3C-4C99-8245-B5E066AC8355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F90C9E-CD3C-4C99-8245-B5E066AC8355}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
